@@ -1,7 +1,4 @@
-import os
-import pyodbc
-
-
+import os 
 from dotenv import load_dotenv
 
 
@@ -21,17 +18,3 @@ conn_str = (
     "Trusted_Connection=yes;"
     "Encrypt=no;"
 )
-
-
-class DbConnect:
-    def __init__(self,con_str):
-        self.con_str = con_str
-
-
-    def execute(self,query):
-        conn = pyodbc.connect(self.con_str)
-        cursor = conn.cursor()
-        res = cursor.execute(query).fetchall()
-        conn.close()
-        return res 
-    
