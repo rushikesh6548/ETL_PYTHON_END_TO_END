@@ -1,7 +1,7 @@
 from .db_connector import DbConnect
 import os 
 import pyodbc
-
+from src.con_details import conn_str
 
 from dotenv import load_dotenv
 
@@ -34,8 +34,11 @@ class Extractor:
     def execute_query(self,query):
         try:
             connection_obj :DbConnect = DbConnect(con_str=self.conn_str)
-            result_from_query = connection_obj.execute(query = query)
-            return result_from_query
+            cols, result_from_query = connection_obj.execute(query = query)
+            return cols, result_from_query
         except pyodbc.Error as e:
             raise ConnectionError(f'Error occured during connection as {e}') 
 
+t = Extractor(conn_str=conn_str)
+print(t.execute_query(query = 'SELECT 1 as t '))
+        

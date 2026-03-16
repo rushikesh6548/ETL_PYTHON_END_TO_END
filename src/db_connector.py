@@ -32,6 +32,7 @@ class DbConnect:
         conn = pyodbc.connect(self.con_str)
         cursor = conn.cursor()
         res = cursor.execute(query).fetchall()
+        columns = [column[0] for column in cursor.description]
         conn.close()
-        return res 
+        return columns,res 
     
