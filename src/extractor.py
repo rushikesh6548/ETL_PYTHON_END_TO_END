@@ -1,13 +1,8 @@
 from src.db_connector import DbConnect
 import os 
 import pyodbc
-<<<<<<< Updated upstream
-from src.con_details import conn_str
-
-=======
 
 import pandas as pd
->>>>>>> Stashed changes
 from dotenv import load_dotenv
 
 from datetime import datetime 
@@ -48,11 +43,6 @@ class Extractor:
         except pyodbc.Error as e:
             raise ConnectionError(f'Error occured during connection as {e}') 
 
-<<<<<<< Updated upstream
-t = Extractor(conn_str=conn_str)
-print(t.execute_query(query = 'SELECT 1 as t '))
-        
-=======
 
     def extract_tables(self,schema):
         ## Using the connection object:
@@ -76,9 +66,7 @@ print(t.execute_query(query = 'SELECT 1 as t '))
             file_path = f'E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\data\staging\{one_table}_{datetime.now().date()}.csv'
             df.to_csv(file_path) 
 
-t = Extractor(conn_str=conn_str)
-print(t.extract_tables(schema='SALES'))
 
 
 
->>>>>>> Stashed changes
+

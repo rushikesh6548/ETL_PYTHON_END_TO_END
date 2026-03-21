@@ -33,14 +33,9 @@ class DbConnect:
         cursor = conn.cursor()
         res = cursor.execute(query).fetchall()
         columns = [column[0] for column in cursor.description]
-<<<<<<< Updated upstream
-        conn.close()
-        return columns,res 
-=======
         rows = [tuple(row) for row in res]
         conn.close()
         return columns,rows 
->>>>>>> Stashed changes
     
 # t = DbConnect(con_str=conn_str)
 # print(t.execute("SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS where table_name like '%SALES%'"))
