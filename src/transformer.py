@@ -38,5 +38,3 @@ class SalesTransformer(BaseTransformer):
         res.to_csv(f'E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\data\processed\Sales_Dimension_{datetime.now().date()}.csv')
 
     
-sales = SalesTransformer()
-print(sales.extract_schema_tables())

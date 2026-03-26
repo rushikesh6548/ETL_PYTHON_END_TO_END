@@ -47,7 +47,10 @@ class Extractor:
     def extract_tables(self,schema):
         ## Using the connection object:
         ## getting the tables inside the schema :
-        table_names : tuple = self.connection_obj.execute(f"SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME like  '%{schema}%' ")
+        table_names : tuple = self.connection_obj.execute(f"""SELECT DISTINCT 
+                                                          TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME like  '%{schema}%' 
+                                                          and table_name not like '%dimension%' 
+                                                          """)
         all_table_names = table_names[1]
 
         ## all table_names contains tables like : [('Table1',), ('Table2',), ('Table3',)]
