@@ -1,17 +1,22 @@
-import logging 
+import logging
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+LOG_DIR = PROJECT_ROOT / "logs"
+LOG_FILE = LOG_DIR / "app.log"
 
 
 def get_logger():
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
-    formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-    
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+
     logging.basicConfig(
-    filename=rf'E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\logs\app.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s')
-    
+        filename=str(LOG_FILE),
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+
     return logger

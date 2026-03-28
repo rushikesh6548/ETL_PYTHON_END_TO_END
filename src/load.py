@@ -24,7 +24,7 @@ class Load:
 
 ## running it 
 # L = Load(
-#     file_path='E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\data\processed',
+#     file_path='data\\processed',
 #     file_name='Sales_Dimension_2026-03-23',
 #     con_str=conn_str        # ← don't forget to pass this!
 # )

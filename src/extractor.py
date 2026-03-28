@@ -19,6 +19,8 @@ from utils.logger import get_logger
 from src.db_connector import DbConnect
 
 logger = get_logger()
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+STAGING_DIR = PROJECT_ROOT / "data" / "staging"
 
 # Fetch variables
 server = os.getenv('DB_SERVER')
@@ -59,6 +61,7 @@ class Extractor:
     def extract_tables(self,schema):
         ## Using the connection object:
         ## getting the tables inside the schema :
+        STAGING_DIR.mkdir(parents=True, exist_ok=True)
         table_names : tuple = self.connection_obj.execute(f"""SELECT DISTINCT 
                                                           TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME like  '%{schema}%' 
                                                           and table_name not like '%dimension%' 
@@ -80,7 +83,7 @@ class Extractor:
             
             
             df = pd.DataFrame(all_rows, columns=col_names)
-            file_path = f'E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\data\staging\{one_table}_{datetime.now().date()}.csv'
+            file_path = STAGING_DIR / f"{one_table}_{datetime.now().date()}.csv"
             df.to_csv(file_path) 
             logger.info(f'Currently Saving Table {one_table} to CSV!')
 
