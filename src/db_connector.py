@@ -5,9 +5,18 @@ from sqlalchemy import create_engine, event
 import urllib
 from dotenv import load_dotenv
 
+import sys
+from pathlib import Path
 
+# Add parent directory to Python path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+
+from utils.logger import get_logger
 # Load variables from .env
 load_dotenv()
+
+logger = get_logger()
 
 # Fetch variables
 server = os.getenv('DB_SERVER')
@@ -34,7 +43,9 @@ class DbConnect:
             conn = pyodbc.connect(self.con_str)
             cursor = conn.cursor()
         except pyodbc.Error as e:
-            raise ConnectionError(e)
+            logger.critical(f"Operation failed due to: {e}")
+            
+        
         else:
             res = cursor.execute(query).fetchall()
             columns = [column[0] for column in cursor.description]
@@ -42,13 +53,14 @@ class DbConnect:
             conn.close()
             return columns,rows 
         
+        
     def dbwrite(self,df,table_name,if_exists = 'append'):
             try:
 
                 params = urllib.parse.quote_plus(self.con_str)
                 engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
 
-                # 2. Performance Hack: Enable fast_executemany
+                
                 @event.listens_for(engine, "before_cursor_execute")
                 def receive_before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
                     if executemany:
@@ -66,7 +78,7 @@ class DbConnect:
             
             
             except Exception as e:
-        # Here you can log the error 'e' if needed
+        
                 print(f"Database Write Error: {e}")
                 return 0 # Or raise e if you want the calling code to handle it
         

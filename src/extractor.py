@@ -1,4 +1,4 @@
-from src.db_connector import DbConnect
+
 import os 
 import pyodbc
 
@@ -8,6 +8,17 @@ from dotenv import load_dotenv
 from datetime import datetime 
 # Load variables from .env
 load_dotenv()
+
+import sys
+from pathlib import Path
+
+# Add parent directory to Python path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from utils.logger import get_logger
+from src.db_connector import DbConnect
+
+logger = get_logger()
 
 # Fetch variables
 server = os.getenv('DB_SERVER')
@@ -29,8 +40,9 @@ class Extractor:
     def __init__(self,conn_str):
         try:
             self.connection_obj : DbConnect = DbConnect(con_str=conn_str)
-        except:
-            pass 
+            logger.info('Trying to establish DB Connection!')
+        except pyodbc.Error as e :
+            logger.critical(f"Cant Connect to db due to {e}") 
             
         
 
@@ -53,6 +65,8 @@ class Extractor:
                                                           """)
         all_table_names = table_names[1]
 
+        logger.info(f'Fetched {len(all_table_names)} Unique tables to be extracted!')
+
         ## all table_names contains tables like : [('Table1',), ('Table2',), ('Table3',)]
         ## Hence now we extract data for all the tables:
 
@@ -68,7 +82,7 @@ class Extractor:
             df = pd.DataFrame(all_rows, columns=col_names)
             file_path = f'E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\data\staging\{one_table}_{datetime.now().date()}.csv'
             df.to_csv(file_path) 
-
+            logger.info(f'Currently Saving Table {one_table} to CSV!')
 
 
 

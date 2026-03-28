@@ -19,11 +19,14 @@ transfom_sales :SalesTransformer= SalesTransformer()
 transfom_sales.extract_schema_tables()
 
 
-# sales = SalesTransformer()
-# print(sales.extract_schema_tables())
+sales = SalesTransformer()
+print(sales.extract_schema_tables())
 
-## Loading to db:
+# ## Loading to db:
 
-l = Load(file_path='E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\data\processed',file_name=
-         'Sales_Dimension_2026-03-26',con_str=conn_str)
-l.load_to_db(table_name='Sales_Dimension')
+# l = Load(file_path='E:\TUTS\PYTHON_THINGS\END_TO_END_PROJECTS\ETL_PYTHON\data\processed',file_name=
+#          'Sales_Dimension_2026-03-26',con_str=conn_str)
+# l.load_to_db(table_name='Sales_Dimension')
+
+
+
